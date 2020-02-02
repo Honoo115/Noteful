@@ -1,27 +1,63 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Main from "./main/main";
 import Header from "./header/header";
 import Folder from "./folder/folder";
 import Note from "./note/note";
 import Sidebar from "./sidebar/sidebar";
-import MainSidebar from "./mainSidebar/mainSidebar";
-import NoteSidebar from "./noteSidebar/noteSidebar";
-import { Switch } from "react-router-dom";
+import CreateFolder from "./createfolder/createfolder";
+import Layout from "./layout/layout";
+import Store from "./store/dummy-store";
+import SideButton from "./sidebutton/sidebutton";
+import CreateNote from "./createnote/createnote";
 import "./App.css";
 
-function App() {  
-  return (
-    <div className="flexbox">
-      <Main>
-        <Route path="/" component={MainSidebar} />
-        <Route path="/note" component={NoteSidebar} />
-        <Route exact path="/" component={Main} />
-        <Route path="/folder" component={Folder} />
-        <Route path="/note" component={Note} />
-      </Main>
-    </div>
-  );
+class App extends Component {
+  componentDidMount() {
+    this.setState({
+      folders: Store.folders,
+      notes: Store.notes
+    });
+  }
+  constructor(props) {
+    super(props);
+    this.state = { folders: [], notes: [] };
+  }
+
+  render() {
+    return (
+      <div className="flexbox">
+        <Layout>
+          <Switch>
+            <Route path="/createfolder">
+              <SideButton />
+            </Route>
+            <Route path="/createnote">
+              <SideButton />
+            </Route>
+            <Route path="/">
+              <Sidebar folders={this.state.folders} />
+            </Route>
+          </Switch>
+          <Route exact path="/">
+            <Main notes={this.state.notes} />
+          </Route>
+          <Route path="/folder">
+            <Folder />
+          </Route>
+          <Route path="/createnote">
+            <CreateNote folders={this.state.folders} />
+          </Route>
+          <Route path="/note">
+            <Note />
+          </Route>
+          <Route path="/createfolder">
+            <CreateFolder />
+          </Route>
+        </Layout>
+      </div>
+    );
+  }
 }
 
 export default App;

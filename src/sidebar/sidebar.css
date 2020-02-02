@@ -1,14 +1,14 @@
 .sidebar {
   flex: 1;
 }
-.folder,
-.addfolder {
+.add,
+.sidebar_folder {
   display: flex;
   align-items: center;
   justify-content: center;
   border: solid black 0.5px;
   height: 43px;
 }
-.addfolder {
+.add {
   margin-top: 30px;
 }
