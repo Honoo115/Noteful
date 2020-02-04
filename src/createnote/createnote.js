@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Store from "../store/dummy-store";
 import "./createnote.css";
 
 class CreateNote extends Component {
@@ -19,10 +20,14 @@ class CreateNote extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { name, content, folder } = this.state;
-    console.log("Name: ", name.value);
-    console.log("Content: ", content.value);
-    console.log("Folder: ", folder.value);
+    console.log("Name: ", event.target.value.name);
+    console.log("Content: ", event.target.value.content);
+    console.log("Folder: ", event.target.value.folder);
+    Store.notes.push({
+      name: event.target.value,
+      content: event.target.value,
+      folder: event.target.value
+    });
   }
   updateName(name) {
     this.setState({ name: { value: name } });
