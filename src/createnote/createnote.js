@@ -10,15 +10,19 @@ class CreateNote extends Component {
       },
       content: {
         value: ""
+      },
+      folder: {
+        value: ""
       }
     };
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const { name, content } = this.state;
+    const { name, content, folder } = this.state;
     console.log("Name: ", name.value);
     console.log("Content: ", content.value);
+    console.log("Folder: ", folder.value);
   }
   updateName(name) {
     this.setState({ name: { value: name } });
@@ -39,7 +43,7 @@ class CreateNote extends Component {
     return (
       <div>
         <h2>Create a Note</h2>
-        <form>
+        <form onSubmit={e => this.handleSubmit(e)}>
           <div className="field">
             <label for="note-name-input">Name</label>
             <input
@@ -50,10 +54,18 @@ class CreateNote extends Component {
           </div>
           <div className="field">
             <label for="note-content-input">Content</label>
-            <textarea id="note-content-input"></textarea>
+            <textarea
+              id="note-content-input"
+              onChange={e => this.updateContent(e.target.value)}
+            ></textarea>
             <div className="field">
               <label for="note-folder-select">Folder</label>
-              <select id="note-folder-select">{Options}</select>
+              <select
+                id="note-folder-select"
+                onChange={e => this.updateFolder(e.target.value)}
+              >
+                {Options}
+              </select>
               <div>
                 <button className="buttons" type="submit">
                   Add Note
