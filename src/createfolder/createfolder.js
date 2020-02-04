@@ -3,6 +3,14 @@ import React, { Component } from "react";
 import "./createfolder.css";
 
 class CreateFolder extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      folder: {
+        value: ""
+      }
+    };
+  }
   render() {
     return (
       <div>

@@ -36,20 +36,20 @@ class App extends Component {
               <SideButton />
             </Route>
             <Route path="/">
-              <Sidebar folders={this.state.folders} />
+              <Sidebar folders={this.state.folders} notes={this.state.notes} />
             </Route>
           </Switch>
           <Route exact path="/">
             <Main notes={this.state.notes} />
           </Route>
-          <Route path="/folder">
-            <Folder />
+          <Route path="/folder/:folderId">
+            <Folder notes={this.state.notes} />
           </Route>
           <Route path="/createnote">
             <CreateNote folders={this.state.folders} />
           </Route>
-          <Route path="/note">
-            <Note />
+          <Route path="/note/:id">
+            <Note notes={this.state.notes} />
           </Route>
           <Route path="/createfolder">
             <CreateFolder />
