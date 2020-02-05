@@ -15,6 +15,7 @@ function Main(props) {
       </div>
     );
   });
-  return <div className="mainpage">{Sticky}</div>;
+  return <div className="mainpage">{Sticky}</div>
+  ;
 }
 export default Main;

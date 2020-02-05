@@ -10,6 +10,7 @@ import Store from "./store/dummy-store";
 import SideButton from "./sidebutton/sidebutton";
 import CreateNote from "./createnote/createnote";
 import FilteredNote from "./filteredNotes/filteredNotes";
+import { Link } from "react-router-dom";
 import "./App.css";
 
 class App extends Component {
@@ -29,10 +30,10 @@ class App extends Component {
       <div className="flexbox">
         <Layout>
           <Switch>
-            <Route path="/createfolder">
+            <Route exact path="/createfolder">
               <SideButton />
             </Route>
-            <Route path="/createnote">
+            <Route exact path="/createnote">
               <SideButton />
             </Route>
             <Route path="/">
@@ -40,7 +41,10 @@ class App extends Component {
             </Route>
           </Switch>
           <Route exact path="/">
-            <Main notes={this.state.notes} />
+            <div className="Fkthisbutton">
+              <Main notes={this.state.notes} />
+              <Link to="/createnote">Add Note</Link>
+            </div>
           </Route>
           <Route exact path="/folder/:folderId">
             <Folder notes={this.state.notes} />
@@ -48,7 +52,7 @@ class App extends Component {
           <Route exact path="/createnote">
             <CreateNote folders={this.state.folders} />
           </Route>
-          <Route path="/note/:id">
+          <Route exact path="/note/:id">
             <Note notes={this.state.notes} />
           </Route>
           <Route exact path="/createfolder">
