@@ -9,6 +9,7 @@ import Layout from "./layout/layout";
 import Store from "./store/dummy-store";
 import SideButton from "./sidebutton/sidebutton";
 import CreateNote from "./createnote/createnote";
+import FilteredNote from "./filteredNotes/filteredNotes";
 import "./App.css";
 
 class App extends Component {
@@ -20,7 +21,7 @@ class App extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = { folders: [], notes: [] };
+    this.state = { folders: [], notes: [], shouldShowAdd: true };
   }
 
   render() {
@@ -41,17 +42,20 @@ class App extends Component {
           <Route exact path="/">
             <Main notes={this.state.notes} />
           </Route>
-          <Route path="/folder/:folderId">
+          <Route exact path="/folder/:folderId">
             <Folder notes={this.state.notes} />
           </Route>
-          <Route path="/createnote">
+          <Route exact path="/createnote">
             <CreateNote folders={this.state.folders} />
           </Route>
           <Route path="/note/:id">
             <Note notes={this.state.notes} />
           </Route>
-          <Route path="/createfolder">
+          <Route exact path="/createfolder">
             <CreateFolder />
+          </Route>
+          <Route exact path="/folder/note/:id">
+            <FilteredNote notes={this.state.notes} />
           </Route>
         </Layout>
       </div>

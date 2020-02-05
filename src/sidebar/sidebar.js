@@ -4,11 +4,14 @@ import "./sidebar.css";
 
 class Sidebar extends Component {
   render() {
-    const Folders = this.props.folders.map(folder => (
-      <li>
-        <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
-      </li>
-    ));
+    const Folders = this.props.folders.map(folder => {
+      console.log(folder);
+      return (
+        <li>
+          <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
+        </li>
+      );
+    });
 
     return (
       <div>

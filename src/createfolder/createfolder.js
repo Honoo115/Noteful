@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import Store from "../store/dummy-store";
+import uuid from "uuid/v4";
 import "./createfolder.css";
 
 class CreateFolder extends Component {
@@ -13,8 +14,11 @@ class CreateFolder extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    const { name } = this.state;
-    console.log("Name: ", name.value);
+    console.log("in event", event.target);
+    Store.folders.push({
+      name: this.state.name.value,
+      id: uuid()
+    });
   }
   updateName(name) {
     this.setState({ name: { value: name } });

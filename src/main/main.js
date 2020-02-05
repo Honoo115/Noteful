@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import "./main.css";
 
 function Main(props) {
@@ -14,13 +15,6 @@ function Main(props) {
       </div>
     );
   });
-  return (
-    <div className="mainpage">
-      {Sticky}
-      <div>
-        <Link to="/createnote">Add Note</Link>
-      </div>
-    </div>
-  );
+  return <div className="mainpage">{Sticky}</div>;
 }
 export default Main;
