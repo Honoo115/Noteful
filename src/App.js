@@ -6,7 +6,6 @@ import Note from "./note/note";
 import Sidebar from "./sidebar/sidebar";
 import CreateFolder from "./createfolder/createfolder";
 import Layout from "./layout/layout";
-import Store from "./store/dummy-store";
 import SideButton from "./sidebutton/sidebutton";
 import CreateNote from "./createnote/createnote";
 import FilteredNote from "./filteredNotes/filteredNotes";
