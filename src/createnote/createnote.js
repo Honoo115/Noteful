@@ -118,7 +118,7 @@ class CreateNote extends Component {
     );
   }
 }
-createnote.propTypes = {
+CreateNote.propTypes = {
   folders: PropTypes.array.isRequired,
   AddNote: PropTypes.func.isRequired
 };
