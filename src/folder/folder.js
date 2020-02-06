@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import PropTypes from "prop-types";
 import "./folder.css";
 function Folder(props) {
   const notes = props.notes;
@@ -27,4 +27,7 @@ function Folder(props) {
     </div>
   );
 }
+Folder.propTypes = {
+  notes: PropTypes.array.isRequired
+};
 export default Folder;

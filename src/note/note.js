@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./note.css";
+import PropTypes from "prop-types";
 
 function Note(props) {
   const notes = props.notes;
@@ -25,4 +26,7 @@ function Note(props) {
     </div>
   );
 }
+Note.propTypes = {
+  notes: PropTypes.array.isRequired
+};
 export default Note;

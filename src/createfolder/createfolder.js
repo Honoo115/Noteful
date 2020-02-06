@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import Store from "../store/dummy-store";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
+import config from "../config";
 import uuid from "uuid/v4";
 import "./createfolder.css";
+import Main from "../main/main";
 
 class CreateFolder extends Component {
   constructor(props) {
@@ -15,10 +18,34 @@ class CreateFolder extends Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log("in event", event.target);
-    Store.folders.push({
+    const warehouse = {
       name: this.state.name.value,
       id: uuid()
-    });
+    };
+    const url = `${config.API_ENDPOINT}/folders`;
+    const options = {
+      method: "POST",
+      body: JSON.stringify(warehouse),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    fetch(url, options)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Something went wrong, please try again later");
+        }
+        return res.json();
+      })
+      .then(data => {
+        this.props.AddFolder(data);
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        this.setState({
+          error: err.message
+        });
+      });
   }
   updateName(name) {
     this.setState({ name: { value: name } });
@@ -33,6 +60,7 @@ class CreateFolder extends Component {
             type="text"
             id="folder-name-input"
             onChange={e => this.updateName(e.target.value)}
+            required
           ></input>
           <div>
             <button className="buttons" type="submit">
@@ -44,4 +72,8 @@ class CreateFolder extends Component {
     );
   }
 }
-export default CreateFolder;
+CreateFolder.propTypes = {
+  folders: PropTypes.array.isRequired,
+  AddFolder: PropTypes.func.isRequired
+};
+export default withRouter(CreateFolder);

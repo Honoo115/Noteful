@@ -11,21 +11,74 @@ import SideButton from "./sidebutton/sidebutton";
 import CreateNote from "./createnote/createnote";
 import FilteredNote from "./filteredNotes/filteredNotes";
 import { Link } from "react-router-dom";
+import config from "./config";
 import "./App.css";
 
 class App extends Component {
-  componentDidMount() {
-    this.setState({
-      folders: Store.folders,
-      notes: Store.notes
-    });
-  }
   constructor(props) {
     super(props);
-    this.state = { folders: [], notes: [], shouldShowAdd: true };
+    this.state = { folders: [], notes: [], hasError: false };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
   }
 
+  componentDidMount() {
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/notes`),
+      fetch(`${config.API_ENDPOINT}/folders`)
+    ])
+      .then(([notesRes, foldersRes]) => {
+        if (!notesRes.ok) return notesRes.json().then(e => Promise.reject(e));
+        if (!foldersRes.ok)
+          return foldersRes.json().then(e => Promise.reject(e));
+
+        return Promise.all([notesRes.json(), foldersRes.json()]);
+      })
+      .then(([notes, folders]) => {
+        this.setState({ notes, folders });
+      })
+      .catch(error => {
+        console.error({ error });
+      });
+  }
+  handleClickDelete = id => {
+    const noteId = id;
+    console.log("DELETE ATTEMPTED");
+
+    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+      .then(res => {
+        if (!res.ok) return res.json().then(e => Promise.reject(e));
+        return res.json();
+      })
+      .then(() => {
+        const shelf = this.state.notes.filter(note => note.id != noteId);
+        this.setState({ notes: shelf });
+      })
+      .catch(error => {
+        console.error({ error });
+      });
+  };
+  handleAddNote = note => {
+    this.setState({
+      notes: [...this.state.notes, note]
+    });
+  };
+  handleAddFolder = folder => {
+    this.setState({
+      folders: [...this.state.folders, folder]
+    });
+  };
   render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+    const { id } = this.props;
     return (
       <div className="flexbox">
         <Layout>
@@ -41,8 +94,11 @@ class App extends Component {
             </Route>
           </Switch>
           <Route exact path="/">
-            <div className="Fkthisbutton">
-              <Main notes={this.state.notes} />
+            <div>
+              <Main
+                notes={this.state.notes}
+                onDeleteNote={this.handleClickDelete}
+              />
               <Link to="/createnote">Add Note</Link>
             </div>
           </Route>
@@ -50,13 +106,16 @@ class App extends Component {
             <Folder notes={this.state.notes} />
           </Route>
           <Route exact path="/createnote">
-            <CreateNote folders={this.state.folders} />
+            <CreateNote
+              folders={this.state.folders}
+              AddNote={this.handleAddNote}
+            />
           </Route>
           <Route exact path="/note/:id">
             <Note notes={this.state.notes} />
           </Route>
           <Route exact path="/createfolder">
-            <CreateFolder />
+            <CreateFolder AddFolder={this.handleAddFolder} />
           </Route>
           <Route exact path="/folder/note/:id">
             <FilteredNote notes={this.state.notes} />

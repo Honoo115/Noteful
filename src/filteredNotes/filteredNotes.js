@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function FilteredNote(props) {
   const notes = props.notes;
@@ -24,4 +25,7 @@ function FilteredNote(props) {
     </div>
   );
 }
+FilteredNote.propTypes = {
+  notes: PropTypes.array.isRequired
+};
 export default FilteredNote;

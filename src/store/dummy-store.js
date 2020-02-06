@@ -14,7 +14,7 @@ export default {
     }
   ],
   notes: [
-    { 
+    {
       id: "cbc787a0-ffaf-11e8-8eb2-f2801f1b9fd1",
       name: "Dogs",
       modified: "2019-01-03T00:00:00.000Z",
